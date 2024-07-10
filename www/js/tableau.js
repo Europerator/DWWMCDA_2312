@@ -16,45 +16,39 @@ function creerTableauInscription() {
     //création du tableau HTML
     let table = document.createElement("table");
     table.setAttribute("id", "tableauInscrits");
-    let thead = document.createElement("thead");
-    let tbody = document.createElement("tbody");
+    let thead = table.createTHead();
+    let tbody = table.createTBody();
 
 
     //creation de la ligne d'entête
     let entete = ["Nom", "Prénom", "Email"];
-    let ligneEntete = document.createElement("tr");
+    let ligneEntete = thead.insertRow();
     for (titre of entete) {
         let heading = document.createElement("th");
         heading.textContent = titre;
         ligneEntete.appendChild(heading);
+        
     }
 
     //création des lignes du tableau
     for (indexNom in inscrits) {
-        ligne = document.createElement("tr");
+        ligne = tbody.insertRow();
         let paire = inscrits[indexNom].split(" ");
-        let cellulePrenom = document.createElement("td");
+        let cellulePrenom = ligne.insertCell();
         cellulePrenom.textContent = paire[0];
-        let celluleNom = document.createElement("td");
+        let celluleNom = ligne.insertCell();
         celluleNom.textContent = paire[1];
-        let celluleMail = document.createElement("td");
+        let celluleMail = ligne.insertCell();
         celluleMail.textContent = paire[0] + "." + paire[1] + "@example.com";
-        let celluleBouton = document.createElement("td")
+        let celluleBouton = ligne.insertCell();
         let deleteBouton = document.createElement("button");
         deleteBouton.textContent = "Supprimer";
         deleteBouton.setAttribute("onclick", "supprimer(" + indexNom + ")");
         celluleBouton.appendChild(deleteBouton);
-        ligne.appendChild(cellulePrenom);
-        ligne.appendChild(celluleNom);
-        ligne.appendChild(celluleMail);
-        ligne.appendChild(celluleBouton);
-        tbody.appendChild(ligne);
     }
 
     //finalisation du tableau
-    thead.appendChild(ligneEntete);
-    table.appendChild(thead);
-    table.appendChild(tbody);
+    //thead.appendChild(ligneEntete);
     document.body.appendChild(table);
 }
 
