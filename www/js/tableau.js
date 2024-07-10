@@ -5,7 +5,7 @@ function creerListeInscription() {
     liste.setAttribute("id", "listeInscrits");
     for (nom of inscrits) {
         let li = document.createElement("li");
-        li.innerHTML = nom;
+        li.textContent = nom;
         liste.appendChild(li);
     }
     document.body.appendChild(liste);
@@ -25,7 +25,7 @@ function creerTableauInscription() {
     let ligneEntete = document.createElement("tr");
     for (titre of entete) {
         let heading = document.createElement("th");
-        heading.innerHTML = titre;
+        heading.textContent = titre;
         ligneEntete.appendChild(heading);
     }
 
@@ -34,14 +34,14 @@ function creerTableauInscription() {
         ligne = document.createElement("tr");
         let paire = inscrits[indexNom].split(" ");
         let cellulePrenom = document.createElement("td");
-        cellulePrenom.innerHTML = paire[0];
+        cellulePrenom.textContent = paire[0];
         let celluleNom = document.createElement("td");
-        celluleNom.innerHTML = paire[1];
+        celluleNom.textContent = paire[1];
         let celluleMail = document.createElement("td");
-        celluleMail.innerHTML = paire[0] + "." + paire[1] + "@example.com";
+        celluleMail.textContent = paire[0] + "." + paire[1] + "@example.com";
         let celluleBouton = document.createElement("td")
         let deleteBouton = document.createElement("button");
-        deleteBouton.innerHTML = "Supprimer";
+        deleteBouton.textContent = "Supprimer";
         deleteBouton.setAttribute("onclick", "supprimer(" + indexNom + ")");
         celluleBouton.appendChild(deleteBouton);
         ligne.appendChild(cellulePrenom);
@@ -78,8 +78,28 @@ function ajouter(nouveau) {
 function validerAjout() {
     prenom = document.getElementById("prenom").value;
     nom = document.getElementById("nom").value;
-    if ((prenom.length > 2) && (nom.length > 2)) {
-        ajouter(prenom + " " + nom);
+    valide = true;
+    message = document.getElementById("resultatInscription");
+    if ((prenom.length < 2) || (nom.length < 2)) {
+        console.log("Un nom/prénom doit être composé d'au moins deux lettres.");
+        message.textContent = "Un nom/prénom doit être composé d'au moins deux lettres.";
+        valide = false;
+    }
+    if (!(/^[A-zÀ-ÿ]+$/.test(prenom)) || !(/^[A-zÀ-ÿ]+$/.test(nom))) {
+        console.log("Veuillez n'utiliser que des caractères alphabétiques.");
+        message.textContent = "Veuillez n'utiliser que des caractères alphabétiques.";
+        valide = false;
+    }
+    nomComplet = prenom + " " + nom;
+    if (inscrits.includes(nomComplet)) {
+        console.log("Cette personne est déjà inscrite.");
+        message.textContent = "Cette personne est déjà inscrite.";
+        valide = false;
+    }
+    if (valide) {
+    ajouter(nomComplet);
+        console.log(nomComplet + " a bien été ajouté.e.");
+        message.textContent = nomComplet + " a bien été ajouté.e.";
     }
 }
 
