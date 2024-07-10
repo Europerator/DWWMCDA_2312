@@ -2,6 +2,7 @@ let inscrits=["Mike Dev", "John Makenzie", "Léa Grande"];
 
 function creerListeInscription() {
     let liste = document.createElement("ul");
+    liste.setAttribute("id", "listeInscrits");
     for (nom of inscrits) {
         let li = document.createElement("li");
         li.innerHTML = nom;
@@ -14,6 +15,7 @@ function creerTableauInscription() {
 
     //création du tableau HTML
     let table = document.createElement("table");
+    table.setAttribute("id", "tableauInscrits");
     let thead = document.createElement("thead");
     let tbody = document.createElement("tbody");
 
@@ -28,18 +30,24 @@ function creerTableauInscription() {
     }
 
     //création des lignes du tableau
-    for (nom of inscrits) {
+    for (indexNom in inscrits) {
         ligne = document.createElement("tr");
-        let paire = nom.split(" ");
-        let cellule1 = document.createElement("td");
-        cellule1.innerHTML = paire[0];
-        let cellule2 = document.createElement("td");
-        cellule2.innerHTML = paire[1];
-        let cellule3 = document.createElement("td");
-        cellule3.innerHTML = paire[0] + "." + paire[1] + "@example.com";
-        ligne.appendChild(cellule1);
-        ligne.appendChild(cellule2);
-        ligne.appendChild(cellule3);
+        let paire = inscrits[indexNom].split(" ");
+        let cellulePrenom = document.createElement("td");
+        cellulePrenom.innerHTML = paire[0];
+        let celluleNom = document.createElement("td");
+        celluleNom.innerHTML = paire[1];
+        let celluleMail = document.createElement("td");
+        celluleMail.innerHTML = paire[0] + "." + paire[1] + "@example.com";
+        let celluleBouton = document.createElement("td")
+        let deleteBouton = document.createElement("button");
+        deleteBouton.innerHTML = "Supprimer";
+        deleteBouton.setAttribute("onclick", "supprimer(" + indexNom + ")");
+        celluleBouton.appendChild(deleteBouton);
+        ligne.appendChild(cellulePrenom);
+        ligne.appendChild(celluleNom);
+        ligne.appendChild(celluleMail);
+        ligne.appendChild(celluleBouton);
         tbody.appendChild(ligne);
     }
 
@@ -48,6 +56,31 @@ function creerTableauInscription() {
     table.appendChild(thead);
     table.appendChild(tbody);
     document.body.appendChild(table);
+}
+
+function raffraichirPage() {
+    document.getElementById("listeInscrits").remove();
+    document.getElementById("tableauInscrits").remove();
+    creerListeInscription();
+    creerTableauInscription();
+}
+
+function supprimer(index) {
+    inscrits.splice(index, 1);
+    raffraichirPage();
+}
+
+function ajouter(nouveau) {
+    inscrits.push(nouveau);
+    raffraichirPage();
+}
+
+function validerAjout() {
+    prenom = document.getElementById("prenom").value;
+    nom = document.getElementById("nom").value;
+    if ((prenom.length > 2) && (nom.length > 2)) {
+        ajouter(prenom + " " + nom);
+    }
 }
 
 creerListeInscription();
