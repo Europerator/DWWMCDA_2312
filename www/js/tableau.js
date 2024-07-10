@@ -1,7 +1,16 @@
+let inscrits=["Mike Dev", "John Makenzie", "Léa Grande"];
+
+function creerListeInscription() {
+    let liste = document.createElement("ul");
+    for (nom of inscrits) {
+        let li = document.createElement("li");
+        li.innerHTML = nom;
+        liste.appendChild(li);
+    }
+    document.body.appendChild(liste);
+}
 
 function creerTableauInscription() {
-    //définition du tableau de noms
-    let inscrits=["Mike Dev", "John Makenzie", "Léa Grande"];
 
     //création du tableau HTML
     let table = document.createElement("table");
@@ -41,4 +50,5 @@ function creerTableauInscription() {
     document.body.appendChild(table);
 }
 
+creerListeInscription();
 creerTableauInscription();
